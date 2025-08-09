@@ -8,16 +8,26 @@ export class ServicoCategoria implements ICategoriaService {
   constructor(private repository: ICategoriaRepository) {}
 
   async listarCategorias(paginacao: IPaginacao) {
-    if (paginacao.pagina <= 0 || paginacao.limite <= 0) {
-      throw new HttpError("Parâmetros de paginação inválidos.", 400);
+    try {
+      if (paginacao.pagina <= 0 || paginacao.limite <= 0) {
+        throw new HttpError("Parâmetros de paginação inválidos.", 400);
+      }
+      return this.repository.listarCategorias(paginacao);
+    } catch (error) {
+      console.error("[Service] - Falha ao buscar categorias.", error);
+      throw error;
     }
-    return this.repository.listarCategorias(paginacao);
   }
 
   async listarCategoria(id: number): Promise<ICategoria | null> {
-    if (!id || isNaN(id) || id <= 0) {
-      throw new HttpError("ID da categoria inválido.", 400);
+    try {
+      if (!id || isNaN(id) || id <= 0) {
+        throw new HttpError("ID da categoria inválido.", 400);
+      }
+      return this.repository.listarCategoria(id);
+    } catch (error) {
+      console.error("[Service] - Falha ao buscar categoria.", error);
+      throw error;
     }
-    return this.repository.listarCategoria(id);
   }
 }
