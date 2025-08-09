@@ -12,7 +12,9 @@ class Servidor {
     this.configurarRotas();
   }
 
-  private configurarMiddlewares(): void {}
+  private configurarMiddlewares(): void {
+    this.app.use(express.json());
+  }
 
   private configurarRotas(): void {
     this.app.use("/api/v1", routes);
