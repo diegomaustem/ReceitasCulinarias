@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { IPaginacao } from "../interfaces/IPaginacao";
-import { ICategoria } from "../interfaces/ICategoria";
 import { ServicoCategoria } from "../services/ServicoCategoria";
 import { RepositorioCategoriaPrisma } from "../repositories/RepositorioCategoriaPrisma";
 import HttpError from "../errors/HttpError";

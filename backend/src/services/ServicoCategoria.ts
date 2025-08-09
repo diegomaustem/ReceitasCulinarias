@@ -1,6 +1,6 @@
-import { ICategoria } from "../interfaces/ICategoria";
+import { ICategoria } from "../interfaces/Categoria/ICategoria";
 import { IPaginacao } from "../interfaces/IPaginacao";
-import { ICategoriaRepository } from "../interfaces/ICategoriaRepository";
+import { ICategoriaRepository } from "../interfaces/Categoria/ICategoriaRepository";
 import { ICategoriaService } from "../interfaces/ICategoriaService";
 import HttpError from "../errors/HttpError";
 

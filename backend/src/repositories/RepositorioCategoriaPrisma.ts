@@ -1,6 +1,6 @@
 import { IPaginacao } from "../interfaces/IPaginacao";
-import { ICategoria } from "../interfaces/ICategoria";
-import { ICategoriaRepository } from "../interfaces/ICategoriaRepository";
+import { ICategoria } from "../interfaces/Categoria/ICategoria";
+import { ICategoriaRepository } from "../interfaces/Categoria/ICategoriaRepository";
 import { IResultadoPaginado } from "../interfaces/IResultadoPaginado";
 import prisma from "../lib/prismaClient";
 

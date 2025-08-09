@@ -1,0 +1,11 @@
+import { ICategoria } from "./Categoria/ICategoria";
+import { IPaginacao } from "./IPaginacao";
+import { IResultadoPaginado } from "./IResultadoPaginado";
+
+export interface ICategoriaService {
+  listarCategorias(
+    paginacao: IPaginacao
+  ): Promise<IResultadoPaginado<ICategoria>>;
+
+  listarCategoria(id: number): Promise<ICategoria | null>;
+}
