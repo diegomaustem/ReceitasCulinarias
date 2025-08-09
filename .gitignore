@@ -1,0 +1,9 @@
+# Backend
+/backend/node_modules/
+/backend/dist/
+/backend/src/generated/prisma
+/backend/.env
+/backend/.env.*
+/backend/coverage/
+/backend/**/*.log
+/backend/tmp/
