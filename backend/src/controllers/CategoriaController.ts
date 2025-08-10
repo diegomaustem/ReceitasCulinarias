@@ -1,15 +1,10 @@
 import { Request, Response } from "express";
 import { IPaginacao } from "../interfaces/IPaginacao";
-import { ServicoCategoria } from "../services/ServicoCategoria";
-import { RepositorioCategoriaPrisma } from "../repositories/RepositorioCategoriaPrisma";
+import { ICategoriaService } from "../interfaces/Categoria/ICategoriaService";
 import HttpError from "../errors/HttpError";
 
-class CategoriaController {
-  private servico: ServicoCategoria;
-
-  constructor() {
-    this.servico = new ServicoCategoria(new RepositorioCategoriaPrisma());
-  }
+export class CategoriaController {
+  constructor(private readonly servico: ICategoriaService) {}
 
   listarCategorias = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -19,7 +14,6 @@ class CategoriaController {
       };
 
       const categorias = await this.servico.listarCategorias(paginacao);
-
       res.status(200).json({
         status: "sucesso",
         ...categorias,
@@ -74,5 +68,3 @@ class CategoriaController {
     }
   };
 }
-
-export const categoriaController = new CategoriaController();
