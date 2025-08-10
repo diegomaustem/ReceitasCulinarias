@@ -1,18 +1,18 @@
 import { ICategoria } from "../interfaces/Categoria/ICategoria";
 import { IPaginacao } from "../interfaces/IPaginacao";
 import { ICategoriaRepository } from "../interfaces/Categoria/ICategoriaRepository";
-import { ICategoriaService } from "../interfaces/ICategoriaService";
+import { ICategoriaService } from "../interfaces/Categoria/ICategoriaService";
 import HttpError from "../errors/HttpError";
 
 export class ServicoCategoria implements ICategoriaService {
-  constructor(private repository: ICategoriaRepository) {}
+  constructor(private readonly repository: ICategoriaRepository) {}
 
   async listarCategorias(paginacao: IPaginacao) {
     try {
       if (paginacao.pagina <= 0 || paginacao.limite <= 0) {
         throw new HttpError("Parâmetros de paginação inválidos.", 400);
       }
-      return this.repository.listarCategorias(paginacao);
+      return await this.repository.listarCategorias(paginacao);
     } catch (error) {
       console.error("[Service] - Falha ao buscar categorias.", error);
       throw error;
@@ -24,7 +24,7 @@ export class ServicoCategoria implements ICategoriaService {
       if (!id || isNaN(id) || id <= 0) {
         throw new HttpError("ID da categoria inválido.", 400);
       }
-      return this.repository.listarCategoria(id);
+      return await this.repository.listarCategoria(id);
     } catch (error) {
       console.error("[Service] - Falha ao buscar categoria.", error);
       throw error;
