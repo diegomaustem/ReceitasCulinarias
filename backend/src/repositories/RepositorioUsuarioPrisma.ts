@@ -2,21 +2,23 @@ import { IPaginacao } from "../interfaces/IPaginacao";
 import { IUsuario } from "../interfaces/Usuario/IUsuario";
 import { IResultadoPaginado } from "../interfaces/IResultadoPaginado";
 import { IUsuarioRepository } from "../interfaces/Usuario/IUsuarioRepository";
-import prisma from "../lib/prismaClient";
+import { PrismaClient } from "../generated/prisma/client";
 
 export class RepositorioUsuarioPrisma implements IUsuarioRepository {
+  constructor(private prisma: PrismaClient) {}
+
   async listarUsuarios(
     paginacao: IPaginacao
   ): Promise<IResultadoPaginado<IUsuario>> {
     const { pagina, limite } = paginacao;
     try {
       const [dados, total] = await Promise.all([
-        prisma.usuario.findMany({
+        this.prisma.usuario.findMany({
           skip: (pagina - 1) * limite,
           take: limite,
           orderBy: { id: "asc" },
         }),
-        prisma.usuario.count(),
+        this.prisma.usuario.count(),
       ]);
 
       return {
@@ -36,7 +38,7 @@ export class RepositorioUsuarioPrisma implements IUsuarioRepository {
 
   async listarUsuario(id: number): Promise<IUsuario | null> {
     try {
-      return await prisma.usuario.findUnique({
+      return await this.prisma.usuario.findUnique({
         where: { id },
       });
     } catch (error) {
@@ -47,7 +49,7 @@ export class RepositorioUsuarioPrisma implements IUsuarioRepository {
 
   async criarUsuario(usuario: IUsuario): Promise<IUsuario> {
     try {
-      return await prisma.usuario.create({
+      return await this.prisma.usuario.create({
         data: usuario,
       });
     } catch (error) {
@@ -58,7 +60,7 @@ export class RepositorioUsuarioPrisma implements IUsuarioRepository {
 
   async atualizarUsuario(id: number, usuario: IUsuario): Promise<IUsuario> {
     try {
-      return await prisma.usuario.update({
+      return await this.prisma.usuario.update({
         where: { id },
         data: usuario,
       });
@@ -70,7 +72,7 @@ export class RepositorioUsuarioPrisma implements IUsuarioRepository {
 
   async excluirUsuario(id: number): Promise<IUsuario> {
     try {
-      return await prisma.usuario.delete({
+      return await this.prisma.usuario.delete({
         where: { id },
       });
     } catch (error) {
@@ -81,9 +83,9 @@ export class RepositorioUsuarioPrisma implements IUsuarioRepository {
 
   async encontrarUsuarioPorLogin(login: string): Promise<IUsuario | null> {
     try {
-      return await prisma.usuario.findFirst({
+      return await this.prisma.usuario.findFirst({
         where: {
-          login: login,
+          login,
         },
       });
     } catch (error) {
