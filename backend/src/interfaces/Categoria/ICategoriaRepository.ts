@@ -1,6 +1,6 @@
-import { ICategoria } from "./Categoria/ICategoria";
-import { IPaginacao } from "./IPaginacao";
-import { IResultadoPaginado } from "./IResultadoPaginado";
+import { ICategoria } from "./ICategoria";
+import { IPaginacao } from "../IPaginacao";
+import { IResultadoPaginado } from "../IResultadoPaginado";
 
 export interface ICategoriaRepository {
   listarCategorias(
