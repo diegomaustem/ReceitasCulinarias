@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { receitaController } from "../../controllers/ReceitaController";
+import { criarReceitaController } from "../../composition/receita.composition";
 
 const router = Router();
+const receitaController = criarReceitaController();
 
 router.get("/", receitaController.listarReceitas);
 router.get("/:id", receitaController.listarReceita);
