@@ -2,21 +2,22 @@ import { IPaginacao } from "../interfaces/IPaginacao";
 import { ICategoria } from "../interfaces/Categoria/ICategoria";
 import { ICategoriaRepository } from "../interfaces/Categoria/ICategoriaRepository";
 import { IResultadoPaginado } from "../interfaces/IResultadoPaginado";
-import prisma from "../lib/prismaClient";
+import { PrismaClient } from "../generated/prisma/client";
 
 export class RepositorioCategoriaPrisma implements ICategoriaRepository {
+  constructor(private prisma: PrismaClient) {}
   async listarCategorias(
     paginacao: IPaginacao
   ): Promise<IResultadoPaginado<ICategoria>> {
     const { pagina, limite } = paginacao;
     try {
       const [dados, total] = await Promise.all([
-        prisma.categoria.findMany({
+        this.prisma.categoria.findMany({
           skip: (pagina - 1) * limite,
           take: limite,
           orderBy: { id: "asc" },
         }),
-        prisma.categoria.count(),
+        this.prisma.categoria.count(),
       ]);
 
       return {
@@ -36,7 +37,7 @@ export class RepositorioCategoriaPrisma implements ICategoriaRepository {
 
   async listarCategoria(id: number): Promise<ICategoria | null> {
     try {
-      return await prisma.categoria.findUnique({
+      return await this.prisma.categoria.findUnique({
         where: { id },
       });
     } catch (error) {
