@@ -1,7 +1,6 @@
 import { IUsuario } from "./IUsuario";
 import { IPaginacao } from "../IPaginacao";
 import { IResultadoPaginado } from "../IResultadoPaginado";
-
 export interface IUsuarioRepository {
   listarUsuarios(paginacao: IPaginacao): Promise<IResultadoPaginado<IUsuario>>;
 
