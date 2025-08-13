@@ -18,6 +18,7 @@ export class ServicoReceita implements IReceitaService {
       if (paginacao.pagina <= 0 || paginacao.limite <= 0) {
         throw new HttpError("Parâmetros de paginação inválidos.", 400);
       }
+
       return await this.repository.listarReceitas(paginacao);
     } catch (error) {
       console.error("[Service] - Falha ao buscar receitas.", error);
