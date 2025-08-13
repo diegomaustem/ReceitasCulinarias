@@ -14,19 +14,19 @@ export class UsuarioController {
         limite: Number(req.query.limite) || 10,
       };
       const usuarios = await this.servico.listarUsuarios(paginacao);
-      res.status(200).json({ status: "sucesso", ...usuarios });
+      res.status(200).json({ code: "SUCCESS", ...usuarios });
     } catch (error) {
       console.error("[Controller] - Erro ao buscar usuários.", error);
       if (error instanceof HttpError) {
         res.status(error.statusCode).json({
-          status: "erro",
+          code: "INTERNAL_SERVER_ERROR",
           mensagem: error.mensagem,
         });
         return;
       }
 
       res.status(500).json({
-        status: "erro",
+        code: "INTERNAL_SERVER_ERROR",
         mensagem: "Erro interno ao buscar usuários. Tente mais tarde.",
       });
     }
@@ -35,9 +35,10 @@ export class UsuarioController {
   listarUsuario = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     if (!id) {
-      res
-        .status(400)
-        .json({ status: "erro", mensagem: "ID do usuário não fornecido." });
+      res.status(400).json({
+        code: "MISSING_USER_ID",
+        mensagem: "ID do usuário não fornecido.",
+      });
       return;
     }
 
@@ -45,28 +46,28 @@ export class UsuarioController {
       const usuario = await this.servico.listarUsuario(parseInt(id));
       if (!usuario) {
         res.status(404).json({
-          status: "erro",
+          code: "RESOURCE_NOT_FOUND",
           mensagem: "Usuário não encontrado.",
         });
         return;
       }
 
       res.status(200).json({
-        status: "sucesso",
+        code: "SUCCESS",
         dados: usuario,
       });
     } catch (error) {
       console.error("[Controller] - Erro ao buscar usuário.", error);
       if (error instanceof HttpError) {
         res.status(error.statusCode).json({
-          status: "erro",
+          code: "INTERNAL_SERVER_ERROR",
           mensagem: error.mensagem,
         });
         return;
       }
 
       res.status(500).json({
-        status: "erro",
+        code: "INTERNAL_SERVER_ERROR",
         mensagem: "Erro interno ao buscar usuário. Tente mais tarde.",
       });
     }
@@ -77,7 +78,7 @@ export class UsuarioController {
     try {
       const novoUsuario = await this.servico.criarUsuario(usuario);
       res.status(201).json({
-        status: "sucesso",
+        code: "SUCCESS",
         mensagem: "Usuário criado com sucesso.",
         dados: novoUsuario,
       });
@@ -85,14 +86,14 @@ export class UsuarioController {
       console.error("[Controller] - Erro ao criar usuário.", error);
       if (error instanceof HttpError) {
         res.status(error.statusCode).json({
-          status: "erro",
+          code: "INTERNAL_SERVER_ERROR",
           mensagem: error.mensagem,
         });
         return;
       }
 
       res.status(500).json({
-        status: "erro",
+        code: "INTERNAL_SERVER_ERROR",
         mensagem: "Erro interno ao criar usuário. Tente mais tarde.",
       });
     }
@@ -101,9 +102,10 @@ export class UsuarioController {
   atualizarUsuario = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     if (!id) {
-      res
-        .status(400)
-        .json({ status: "erro", mensagem: "ID do usuário não fornecido." });
+      res.status(400).json({
+        code: "MISSING_USER_ID",
+        mensagem: "ID do usuário não fornecido.",
+      });
       return;
     }
     const usuario: IUsuario = req.body;
@@ -112,7 +114,7 @@ export class UsuarioController {
       const usuarioEncontrado = await this.servico.listarUsuario(parseInt(id));
       if (!usuarioEncontrado) {
         res.status(404).json({
-          status: "erro",
+          code: "RESOURCE_NOT_FOUND",
           mensagem: "Usuário não encontrado para atualizar.",
         });
         return;
@@ -123,7 +125,7 @@ export class UsuarioController {
         usuario
       );
       res.status(200).json({
-        status: "sucesso",
+        status: "SUCCESS",
         mensagem: "Usuário atualizado com sucesso.",
         dados: usuarioAtualizado,
       });
@@ -131,14 +133,14 @@ export class UsuarioController {
       console.error("[Controller] - Erro ao atualiza usuário.", error);
       if (error instanceof HttpError) {
         res.status(error.statusCode).json({
-          status: "erro",
+          code: "INTERNAL_SERVER_ERROR",
           mensagem: error.mensagem,
         });
         return;
       }
 
       res.status(500).json({
-        status: "erro",
+        code: "INTERNAL_SERVER_ERROR",
         mensagem: "Erro interno ao atualizar usuário.",
       });
     }
@@ -147,16 +149,17 @@ export class UsuarioController {
   excluirUsuario = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     if (!id) {
-      res
-        .status(400)
-        .json({ status: "erro", mensagem: "ID do usuário não fornecido." });
+      res.status(400).json({
+        code: "MISSING_USER_ID",
+        mensagem: "ID do usuário não fornecido.",
+      });
       return;
     }
     try {
       const usuarioEncontrado = await this.servico.listarUsuario(parseInt(id));
       if (!usuarioEncontrado) {
         res.status(404).json({
-          status: "erro",
+          code: "RESOURCE_NOT_FOUND",
           mensagem: "Usuário não encontrado para exclusão.",
         });
         return;
@@ -164,7 +167,7 @@ export class UsuarioController {
 
       const usuarioExcluido = await this.servico.excluirUsuario(parseInt(id));
       res.status(200).json({
-        status: "sucesso",
+        code: "SUCCESS",
         mensagem: "Usuário excluído com sucesso.",
         dados: usuarioExcluido,
       });
@@ -172,14 +175,14 @@ export class UsuarioController {
       console.error("[Controller] - Erro ao excluir usuário.", error);
       if (error instanceof HttpError) {
         res.status(error.statusCode).json({
-          status: "erro",
+          code: "INTERNAL_SERVER_ERROR",
           mensagem: error.mensagem,
         });
         return;
       }
 
       res.status(500).json({
-        status: "erro",
+        code: "INTERNAL_SERVER_ERROR",
         mensagem: "Erro interno ao excluir usuário.",
       });
     }
