@@ -11,13 +11,29 @@ export class RepositorioReceitaPrisma implements IReceitaRepository {
   ): Promise<IResultadoPaginado<IReceita>> {
     const { pagina, limite } = paginacao;
     try {
+      const { busca } = paginacao;
+      const where = busca
+        ? {
+            nome: {
+              contains: busca,
+            },
+          }
+        : {};
+
       const [dados, total] = await Promise.all([
         this.prisma.receita.findMany({
+          where: busca
+            ? {
+                nome: {
+                  contains: busca,
+                },
+              }
+            : {},
           skip: (pagina - 1) * limite,
           take: limite,
           orderBy: { id: "asc" },
         }),
-        this.prisma.receita.count(),
+        this.prisma.receita.count({ where }),
       ]);
 
       return {
