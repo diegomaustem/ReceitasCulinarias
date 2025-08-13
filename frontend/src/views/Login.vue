@@ -16,7 +16,6 @@ const form = reactive<CredenciaisLogin>({
 });
 
 const mensagemErro = ref<string | null>(null);
-const lembrarMe = ref(false);
 
 const rules = {
   form: {
