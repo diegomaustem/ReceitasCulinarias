@@ -40,6 +40,7 @@ export class ServicoReceita implements IReceitaService {
   async criarReceita(receita: IReceita): Promise<IReceita> {
     try {
       await this.validarRegrasReceita(receita);
+      console.log("Passou");
       return await this.repository.criarReceita(receita);
     } catch (error) {
       console.error("[Service] - Falha ao criar receita.", error);
@@ -68,30 +69,28 @@ export class ServicoReceita implements IReceitaService {
 
   private async validarRegrasReceita(receita: IReceita): Promise<void> {
     const { idUsuarios, idCategorias } = receita;
-    const promessas = [];
-
     if (idUsuarios) {
-      promessas.push(this.usuarioRepository.listarUsuario(idUsuarios));
+      const usuarios = await this.usuarioRepository.listarUsuario(idUsuarios);
+
+      if (!usuarios) {
+        throw new HttpError(
+          "ID de usuário inválido. Nenhum usuário foi encontrado com o ID fornecido.",
+          404
+        );
+      }
     }
 
     if (idCategorias) {
-      promessas.push(this.categoriaRepository.listarCategoria(idCategorias));
-    }
-
-    const [usuario, categoria] = await Promise.all(promessas);
-
-    if (idUsuarios && !usuario) {
-      throw new HttpError(
-        "ID de usuário inválido. Nenhum usuário foi encontrado com o ID fornecido.",
-        404
+      const categoria = await this.categoriaRepository.listarCategoria(
+        idCategorias
       );
-    }
 
-    if (idCategorias && !categoria) {
-      throw new HttpError(
-        "ID de categoria inválido. Nenhuma categoria foi encontrada com o ID fornecido.",
-        404
-      );
+      if (!categoria) {
+        throw new HttpError(
+          "ID de categoria inválido. Nenhuma categoria foi encontrada com o ID fornecido.",
+          404
+        );
+      }
     }
   }
 }
