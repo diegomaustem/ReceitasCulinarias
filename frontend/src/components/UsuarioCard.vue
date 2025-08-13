@@ -14,10 +14,11 @@
         <p class="text-muted mb-0">{{ usuario.login }}</p>
       </div>
 
-      <div class="user-actions">
+      <div class="user-actions d-flex gap-2">
         <button
           @click.stop="$emit('editar', usuario.id)"
-          class="btn btn-sm btn-dark me-2"
+          class="btn btn-sm btn-dark"
+          title="Editar"
         >
           <SquarePen />
         </button>
@@ -25,6 +26,7 @@
         <button
           @click.stop="$emit('excluir', usuario.id)"
           class="btn btn-sm btn-dark"
+          title="Excluir"
         >
           <Trash2 />
         </button>

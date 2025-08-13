@@ -91,13 +91,7 @@
 <script setup lang="ts">
 import { ref, watch, reactive } from "vue";
 import useVuelidate from "@vuelidate/core";
-import {
-  required,
-  minLength,
-  maxLength,
-  helpers,
-  isAlphanumeric,
-} from "@vuelidate/validators";
+import { required, minLength, maxLength, helpers } from "@vuelidate/validators";
 import type { Usuario } from "../types/Usuario";
 import { useUsuarioStore } from "../stores/usuario.store";
 
@@ -119,7 +113,7 @@ const form = reactive({
 const rules = {
   form: {
     nome: {
-      isAlphanumeric: helpers.withMessage(
+      alphaNum: helpers.withMessage(
         "O nome não pode ser número.",
         helpers.regex(/^(?=.*[a-zA-Z])[a-zA-ZÀ-ÿ\s0-9@]+$/)
       ),
@@ -134,7 +128,7 @@ const rules = {
     },
     login: {
       required: helpers.withMessage("Login é obrigatório", required),
-      isAlphanumeric: helpers.withMessage(
+      alphaNum: helpers.withMessage(
         "O login não pode ser número.",
         helpers.regex(/^(?=.*[a-zA-Z])[a-zA-ZÀ-ÿ\s0-9@.#*:/]+$/)
       ),
@@ -144,7 +138,7 @@ const rules = {
     senha: {
       minLength: helpers.withMessage("Mínimo 6 caracteres", minLength(6)),
       maxLength: helpers.withMessage("Máximo 20 caracteres", maxLength(20)),
-      required: helpers.withMessage("Senha é obrigatória", (value) =>
+      required: helpers.withMessage("Senha é obrigatória", (value: string) =>
         !props.usuarioParaEdicao ? !!value && value.length >= 6 : true
       ),
     },
@@ -157,7 +151,7 @@ watch(
   () => props.usuarioParaEdicao,
   (usuario) => {
     if (usuario) {
-      form.nome = usuario.nome;
+      form.nome = usuario.nome || form.nome;
       form.login = usuario.login;
       form.senha = "";
     } else {
