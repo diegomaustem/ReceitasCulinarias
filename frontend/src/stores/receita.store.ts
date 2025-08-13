@@ -54,11 +54,17 @@ export const useReceitaStore = defineStore("receita", {
       }
     },
 
-    async adicionarReceita(receita: Omit<Receita, "id">) {
+    async adicionarReceita(receita: Partial<Omit<Receita, "id">>) {
       try {
         const response = await criarReceita({
           ...receita,
-          idCategorias: receita.idCategorias || null,
+          idUsuarios: receita.idUsuarios ?? null,
+          idCategorias: receita.idCategorias ?? null,
+          nome: receita.nome ?? null,
+          ingredientes: receita.ingredientes ?? "",
+          modoPreparo: receita.modoPreparo ?? "",
+          tempoPreparoMinutos: receita.tempoPreparoMinutos ?? 0,
+          porcoes: receita.porcoes ?? 1,
         });
         await this.carregarReceitas(this.paginacao.pagina);
         exibeSucesso(response.mensagem);

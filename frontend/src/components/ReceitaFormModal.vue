@@ -212,10 +212,16 @@ watch(
   () => props.receitaParaEdicao,
   (receita) => {
     if (receita) {
-      form.nome = receita.nome;
-      form.ingredientes = receita.ingredientes;
+      if (receita.nome) {
+        form.nome = receita.nome;
+      }
+      if (receita.ingredientes) {
+        form.ingredientes = receita.ingredientes;
+      }
+      if (receita.tempoPreparoMinutos) {
+        form.tempoPreparoMinutos = receita.tempoPreparoMinutos;
+      }
       form.modoPreparo = receita.modoPreparo;
-      form.tempoPreparoMinutos = receita.tempoPreparoMinutos;
       form.porcoes = receita.porcoes || null;
       form.idCategorias = receita.idCategorias || null;
     } else {
