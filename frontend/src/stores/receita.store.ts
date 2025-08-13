@@ -95,7 +95,6 @@ export const useReceitaStore = defineStore("receita", {
 
       if (result.isConfirmed) {
         try {
-          console.log("Confirmou");
           const response = await excluirReceita(id);
           await this.carregarReceitas(this.paginacao.pagina);
           exibeSucesso(response.mensagem);
@@ -103,8 +102,6 @@ export const useReceitaStore = defineStore("receita", {
           this.mensagemErro = renderizarErros(error);
           exibeErro(this.mensagemErro);
         }
-      } else {
-        console.log("Não confirmou");
       }
     },
   },
