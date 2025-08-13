@@ -15,7 +15,7 @@ export class AuthController {
       const comparaSenha = await bcrypt.compare(senha, usuario.senha);
       if (!comparaSenha) {
         res.status(401).json({
-          status: "erro",
+          code: "ERROR_INVALID_CREDENTIALS",
           mensagem: "Credênciais inválidas.",
         });
         return;
@@ -29,13 +29,13 @@ export class AuthController {
       }
 
       const token = jwt.sign({ id: usuario.id }, chaveSecreta, {
-        expiresIn: "2h",
+        expiresIn: "5h",
       });
 
       res.status(200).json({
-        status: "sucesso",
+        code: "SUCCESS",
         mensagem: "Usuário logado com sucesso.",
-        loggedUser: {
+        usuarioLogado: {
           id: usuario.id,
           nome: usuario.nome,
           login: usuario.login,
@@ -46,14 +46,14 @@ export class AuthController {
       console.error("[Auth] - Erro no processo de login.", error);
       if (error instanceof HttpError) {
         res.status(error.statusCode).json({
-          status: "erro",
+          code: "INTERNAL_SERVER_ERROR",
           mensagem: error.mensagem,
         });
         return;
       }
 
       res.status(500).json({
-        status: "erro",
+        code: "INTERNAL_SERVER_ERROR",
         mensagem: "Erro interno no processo de login. Tente mais tarde.",
       });
     }
