@@ -40,7 +40,6 @@ export class ServicoReceita implements IReceitaService {
   async criarReceita(receita: IReceita): Promise<IReceita> {
     try {
       await this.validarRegrasReceita(receita);
-      console.log("Passou");
       return await this.repository.criarReceita(receita);
     } catch (error) {
       console.error("[Service] - Falha ao criar receita.", error);
