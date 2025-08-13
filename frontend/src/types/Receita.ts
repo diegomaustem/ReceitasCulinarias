@@ -1,12 +1,10 @@
 export interface Receita {
   id: number;
-  idUsuarios: number;
-  idCategorias?: number | null;
-  nome?: string | null;
-  tempoPreparoMinutos?: number | null;
-  porcoes?: number | null;
+  idUsuarios: number | null;
+  idCategorias: number | null;
+  nome: string | null;
+  tempoPreparoMinutos: number;
+  porcoes: number;
+  ingredientes: string;
   modoPreparo: string;
-  ingredientes?: string | null;
-  criadoEm: Date;
-  alteradoEm: Date;
 }
