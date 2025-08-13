@@ -19,7 +19,7 @@
               />
               <div
                 v-if="v$.form.nome.$error"
-                class="text-danger text-start pt-1"
+                class="text-danger-default text-start pt-1"
               >
                 * {{ v$.form.nome.$errors[0]?.$message }}
               </div>
@@ -53,7 +53,7 @@
               ></textarea>
               <div
                 v-if="v$.form.ingredientes.$error"
-                class="text-danger text-start pt-1"
+                class="text-danger-default text-start pt-1"
               >
                 * {{ v$.form.ingredientes.$errors[0]?.$message }}
               </div>
@@ -69,7 +69,7 @@
               ></textarea>
               <div
                 v-if="v$.form.modoPreparo.$error"
-                class="text-danger text-start pt-1"
+                class="text-danger-default text-start pt-1"
               >
                 * {{ v$.form.modoPreparo.$errors[0]?.$message }}
               </div>
@@ -85,7 +85,7 @@
               />
               <div
                 v-if="v$.form.tempoPreparoMinutos.$error"
-                class="text-danger text-start pt-1"
+                class="text-danger-default text-start pt-1"
               >
                 * {{ v$.form.tempoPreparoMinutos[0]?.$message }}
               </div>
@@ -101,7 +101,7 @@
               />
               <div
                 v-if="v$.form.porcoes.$error"
-                class="text-danger text-start pt-1"
+                class="text-danger-default text-start pt-1"
               >
                 * {{ v$.form.porcoes.$errors[0]?.$message }}
               </div>
