@@ -15,21 +15,21 @@ export class CategoriaController {
 
       const categorias = await this.servico.listarCategorias(paginacao);
       res.status(200).json({
-        status: "sucesso",
+        code: "SUCCESS",
         ...categorias,
       });
     } catch (error) {
       console.error("[Controller] - Erro ao buscar categorias.", error);
       if (error instanceof HttpError) {
         res.status(error.statusCode).json({
-          status: "erro",
+          status: "INTERNAL_SERVER_ERROR",
           mensagem: error.mensagem,
         });
         return;
       }
 
       res.status(500).json({
-        status: "erro",
+        status: "INTERNAL_SERVER_ERROR",
         mensagem: "Erro interno ao buscar categorias. Tente mais tarde.",
       });
     }
@@ -39,30 +39,32 @@ export class CategoriaController {
     const { id } = req.params;
     try {
       if (!id) {
-        res
-          .status(400)
-          .json({ status: "erro", mensagem: "ID da categoria não informado." });
+        res.status(400).json({
+          code: "MISSING_CATEGORY_ID",
+          mensagem: "ID da categoria não informado.",
+        });
         return;
       }
 
       const categoria = await this.servico.listarCategoria(parseInt(id));
       categoria
-        ? res.status(200).json({ status: "sucesso", dados: categoria })
-        : res
-            .status(404)
-            .json({ status: "erro", mensagem: "Categoria não encontrada." });
+        ? res.status(200).json({ code: "SUCCESS", dados: categoria })
+        : res.status(404).json({
+            code: "RESOURCE_NOT_FOUND",
+            mensagem: "Categoria não encontrada.",
+          });
     } catch (error) {
       console.error("[Controller] - Falha ao buscar categoria.", error);
       if (error instanceof HttpError) {
         res.status(error.statusCode).json({
-          status: "erro",
+          code: "INTERNAL_SERVER_ERROR",
           mensagem: error.mensagem,
         });
         return;
       }
 
       res.status(500).json({
-        status: "erro",
+        code: "INTERNAL_SERVER_ERROR",
         mensagem: "Erro interno ao buscar categorias. Tente mais tarde.",
       });
     }
