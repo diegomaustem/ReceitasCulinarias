@@ -21,9 +21,9 @@ const rules = {
   form: {
     login: {
       required: helpers.withMessage("O login é obrigatório.", required),
-      isAlphanumeric: helpers.withMessage(
-        "O login não pode ser número.",
-        helpers.regex(/^(?=.*[a-zA-Z])[a-zA-ZÀ-ÿ\s0-9@.#*:/]+$/)
+      customValidation: helpers.withMessage(
+        "O login não pode ser número ou conter espaços.",
+        helpers.regex(/^(?=.*[a-zA-Z])[a-zA-ZÀ-ÿ0-9@.#*:/]+$/)
       ),
       minLength: helpers.withMessage(
         "Pelo menos 3 caracteres na senha.",
