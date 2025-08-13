@@ -1,30 +1,53 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="container-fluid">
+    <header
+      v-if="$route.name !== 'login'"
+      class="bg-light py-3 border-bottom d-flex align-items-center justify-content-between"
+    >
+      <div class="user-info d-flex align-items-center me-3"></div>
+      <nav class="nav flex-grow-1 justify-content-center">
+        <router-link to="/receitas" class="nav-link">Receitas</router-link>
+        <router-link to="/usuarios" class="nav-link">Usuários</router-link>
+      </nav>
+
+      <div class="user-info d-flex align-items-center me-3">
+        <span class="me-2">
+          {{ authStore.nomeUsuario }}
+        </span>
+        <button class="btn btn-md btn-logout" @click="fazerLogout">Sair</button>
+      </div>
+    </header>
+
+    <main class="container py-4">
+      <router-view></router-view>
+    </main>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+import { useAuthStore } from "./stores/auth.store";
+
+const authStore = useAuthStore();
+const router = useRouter();
+
+const fazerLogout = () => {
+  authStore.logout();
+  router.push({ name: "login" });
+};
+</script>
+
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.nav-link {
+  font-size: 20px;
+  color: #0c1114;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.router-link-active {
+  font-weight: bold;
+  color: #252a2e !important;
+  border-bottom: 2px solid #252a2e;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.me-2 {
+  font-weight: 500;
 }
 </style>
