@@ -12,6 +12,7 @@ export class ReceitaController {
       const paginacao: IPaginacao = {
         pagina: parseInt(String(req.query.pagina)) || 1,
         limite: parseInt(String(req.query.limite)) || 10,
+        busca: req.query.busca ? String(req.query.busca) : undefined,
       };
       const receitas = await this.servico.listarReceitas(paginacao);
       res.status(200).json({ code: "SUCCESS", ...receitas });
