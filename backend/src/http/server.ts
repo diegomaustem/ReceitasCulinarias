@@ -3,6 +3,9 @@ import cors from "cors";
 import helmet from "helmet";
 import routes from "../routes/index";
 
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "../../swaggerConfig";
+
 class Servidor {
   private app: Express;
   private readonly porta: number;
@@ -28,6 +31,7 @@ class Servidor {
   }
 
   private configurarRotas(): void {
+    this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     this.app.use("/api/v1", routes);
   }
 
