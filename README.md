@@ -14,7 +14,7 @@
 ### 2. Configurar Backend
     Entre na pasta backend
     Execute o comando: npm install
-    Crie .env com essas variáveis setadas com os mesmos valores abaixo:
+    Crie .env na pasta backend com essas variáveis setadas com os mesmos valores abaixo:
 
     PORTA=3000
     DATABASE_URL="mysql://root:123456@localhost:3306/receitas_db"
@@ -24,13 +24,11 @@
     
 ### 3. Configurar Frontend
     Agora acesse a pasta frontend
-    Execute o comando: npm install
-    Crie .env com essa variável setada:
-    
-    VITE_API_URL=/api/v1
+    Execute o comando dentro dela: npm install
+    Crie .env com essa variável setada: VITE_API_URL=/api/v1
 
 🐳 Execução
-Na raiz do projeto:
+Na raiz do projeto na pasta ReceitasCulinarias:
 
     docker-compose up --build -d
     Verifique os containers: docker-compose ps
@@ -42,8 +40,9 @@ Recurso	URL
       API	http://localhost:3001/api/v1/categorias
       Docs	http://localhost:5173/api-docs
       
-Credenciais padrão (PARA PRIMEIRO ACESSO):
-🔑 admin@admin / 123456
+Credenciais padrão (Use essas credênciais para (PRIMEIRO ACESSO).
+🔑 login:admin@admin
+🔑 senha:123456
 
 ### Testes 
       Foram feitos dois testes unitários no controller do usuário.
