@@ -126,6 +126,7 @@ import ReceitaModal from "../components/ReceitaModal.vue";
 import ReceitaFormModal from "../components/ReceitaFormModal.vue";
 import { useCategoriaStore } from "../stores/categoria.store";
 import type { Receita } from "../types/Receita";
+import { debounce } from "lodash-es";
 
 const receitaStore = useReceitaStore();
 const categoriaStore = useCategoriaStore();
@@ -147,16 +148,30 @@ const termoBusca = computed({
   set: (value) => (receitaStore.termoBusca = value),
 });
 
+// Crie a função debounced separadamente
+const debouncedSearch = debounce(() => {
+  buscarReceitas();
+}, 300);
+
 watch(
   () => receitaStore.termoBusca,
   (newVal, oldVal) => {
     if (newVal !== oldVal) {
       receitaStore.paginacao.pagina = 1;
-      buscarReceitas();
+      debouncedSearch();
     }
   }
-  // { debounce: 300 }
 );
+// watch(
+//   () => receitaStore.termoBusca,
+//   (newVal, oldVal) => {
+//     if (newVal !== oldVal) {
+//       receitaStore.paginacao.pagina = 1;
+//       buscarReceitas();
+//     }
+//   }
+//   { debounce: 300 }
+// );
 
 const buscarReceitas = async () => {
   loadingBusca.value = true;
