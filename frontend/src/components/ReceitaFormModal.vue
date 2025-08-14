@@ -185,14 +185,22 @@ const rules = {
     ingredientes: {
       required: helpers.withMessage("Ingredientes é obrigatório.", required),
       minLength: helpers.withMessage("Mínimo 10 caracteres.", minLength(10)),
+      isAlphanumeric: helpers.withMessage(
+        "Ingredientes não pode ser apenas número(s).",
+        helpers.regex(/^(?=.*[a-zA-Z])[a-zA-ZÀ-ÿ\s0-9@.#*:/]+$/)
+      ),
     },
     modoPreparo: {
       required: helpers.withMessage("Modo de preparo é obrigatório.", required),
       minLength: helpers.withMessage("Mínimo 20 caracteres.", minLength(20)),
+      isAlphanumeric: helpers.withMessage(
+        "Modo de preparo não pode ser apenas número(s).",
+        helpers.regex(/^(?=.*[a-zA-Z])[a-zA-ZÀ-ÿ\s0-9@.#*:/]+$/)
+      ),
     },
     tempoPreparoMinutos: {
       required: helpers.withMessage(
-        "Tempo de preparo é obrigatório.",
+        "Tempo de preparo é obrigatório e numérico.",
         required
       ),
       numeric: helpers.withMessage(
