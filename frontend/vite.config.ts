@@ -8,4 +8,25 @@ export default defineConfig({
       "@": "/src",
     },
   },
+  optimizeDeps: {
+    include: ["lodash-es", "vue", "vue-router", "pinia", "axios"],
+    exclude: [],
+  },
+  server: {
+    host: true,
+    port: 5173,
+    strictPort: true,
+    proxy: {
+      "/api": {
+        target: "http://backend:3000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+        secure: false,
+      },
+    },
+  },
+  preview: {
+    port: 5173,
+    strictPort: true,
+  },
 });
