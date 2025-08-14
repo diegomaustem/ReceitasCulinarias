@@ -1,7 +1,28 @@
 import prisma from "../src/lib/prismaClient";
+import { utilsSenha } from "../src/utils/UtilsSenha";
 
 async function main() {
-  console.log("Seed categorias");
+  const usuario = {
+    nome: "Admin",
+    login: "admin@admin",
+    senha: process.env.SENHA_DEFAULT || "",
+  };
+  const senhaComHash = await utilsSenha.hashSenha(usuario.senha);
+  try {
+    await prisma.usuario.upsert({
+      where: { login: usuario.login },
+      update: {},
+      create: {
+        nome: usuario.nome,
+        login: usuario.login,
+        senha: senhaComHash,
+      },
+    });
+    console.log("Usuário criado.");
+  } catch (error) {
+    console.error("Erro ao inserir usuário.", error);
+  }
+
   const categorias = [
     "Bolos e tortas doces",
     "Carnes",
