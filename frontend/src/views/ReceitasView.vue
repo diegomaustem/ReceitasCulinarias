@@ -148,7 +148,6 @@ const termoBusca = computed({
   set: (value) => (receitaStore.termoBusca = value),
 });
 
-// Crie a função debounced separadamente
 const debouncedSearch = debounce(() => {
   buscarReceitas();
 }, 300);
@@ -162,16 +161,6 @@ watch(
     }
   }
 );
-// watch(
-//   () => receitaStore.termoBusca,
-//   (newVal, oldVal) => {
-//     if (newVal !== oldVal) {
-//       receitaStore.paginacao.pagina = 1;
-//       buscarReceitas();
-//     }
-//   }
-//   { debounce: 300 }
-// );
 
 const buscarReceitas = async () => {
   loadingBusca.value = true;
