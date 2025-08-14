@@ -38,14 +38,4 @@ body {
     color: #dc3545;
     font-size: small;
   }
-
-  .btn-logout {
-    color: #fefefe;
-    background-color: #262932;
-  }
-
-  .btn-logout:hover {
-    background-color: #3a3e4d;
-    color: #ffffff;
-  }
 }
