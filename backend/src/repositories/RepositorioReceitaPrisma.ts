@@ -9,9 +9,8 @@ export class RepositorioReceitaPrisma implements IReceitaRepository {
   async listarReceitas(
     paginacao: IPaginacao
   ): Promise<IResultadoPaginado<IReceita>> {
-    const { pagina, limite } = paginacao;
+    const { pagina, limite, busca } = paginacao;
     try {
-      const { busca } = paginacao;
       const where = busca
         ? {
             nome: {
