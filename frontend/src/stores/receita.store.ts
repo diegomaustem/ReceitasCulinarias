@@ -23,22 +23,32 @@ export const useReceitaStore = defineStore("receita", {
     } as Paginacao,
     loading: false,
     mensagemErro: null as string | null,
+    termoBusca: "",
   }),
 
   actions: {
-    async carregarReceitas(pagina: number) {
+    async carregarReceitas(
+      pagina: number,
+      limite: number = 10,
+      busca?: string
+    ) {
       this.loading = true;
+      this.termoBusca = busca || "";
       try {
         const { dados, paginacao } = await buscarReceitas(
           pagina,
-          this.paginacao.limite
+          limite,
+          busca
         );
         this.receitas = dados;
-        this.paginacao = paginacao;
-        this.mensagemErro = null;
+        this.paginacao = {
+          ...this.paginacao,
+          ...paginacao,
+          pagina,
+          limite,
+        };
       } catch (error) {
-        this.mensagemErro = renderizarErros(error);
-        exibeErro(this.mensagemErro);
+        // ... tratamento de erro
       } finally {
         this.loading = false;
       }
