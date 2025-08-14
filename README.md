@@ -8,48 +8,48 @@
 ## 🚀 Instalação
 
 ### 1. Clonar repositório
-```bash
-git clone git@github.com:diegomaustem/ReceitasCulinarias.git
-cd ReceitasCulinarias
-2. Configurar Backend
-bash
-cd backend
-npm install
-Crie .env com:
+    git clone git@github.com:diegomaustem/ReceitasCulinarias.git
+    Entre na pasta principal que é ReceitasCulinarias
+    
+### 2. Configurar Backend
+    Entre na pasta backend
+    Execute o comando: npm install
+    Crie .env com essas variáveis setadas com os mesmos valores abaixo:
 
-ini
-PORTA=3000
-DATABASE_URL="mysql://root:123456@localhost:3306/receitas_db"
-SECRET_KEY=9c62d38b0b32189fa3e8e86220cb3057
-JWT_EXPIRATION=2h
-SENHA_DEFAULT="12345678"
-3. Configurar Frontend
-bash
-cd ../frontend
-npm install
-Crie .env com:
+    PORTA=3000
+    DATABASE_URL="mysql://root:123456@localhost:3306/receitas_db"
+    SECRET_KEY=9c62d38b0b32189fa3e8e86220cb3057
+    JWT_EXPIRATION=2h
+    SENHA_DEFAULT="12345678"
+    
+### 3. Configurar Frontend
+    Agora acesse a pasta frontend
+    Execute o comando: npm install
+    Crie .env com essa variável setada:
+    
+    VITE_API_URL=/api/v1
 
-ini
-VITE_API_URL=/api/v1
 🐳 Execução
 Na raiz do projeto:
 
-bash
-docker-compose up --build -d
-Verifique os containers:
-
-bash
-docker-compose ps
+    docker-compose up --build -d
+    Verifique os containers: docker-compose ps
+    
 🌐 Acessos
 Recurso	URL
-Aplicação	http://localhost:5173
-API	http://localhost:3001/api/v1/categorias
-Docs	http://localhost:5173/api-docs
-Credenciais padrão:
+
+      Aplicação	http://localhost:5173
+      API	http://localhost:3001/api/v1/categorias
+      Docs	http://localhost:5173/api-docs
+      
+Credenciais padrão (PARA PRIMEIRO ACESSO):
 🔑 admin@admin / 123456
 
+### Testes 
+      Foram feitos dois testes unitários no controller do usuário.
+      Para executá-los. Entre na pasta backend e na raiz do projeto execute o comando: npm test
+
 🔧 Troubleshooting
-bash
 # Ver logs
 docker-compose logs -f
 
