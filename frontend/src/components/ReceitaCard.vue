@@ -9,19 +9,13 @@
         </small>
       </p>
       <div class="btn-group w-100">
-        <button
-          @click="$emit('visualizar')"
-          class="btn btn-sm btn-outline-primary"
-        >
+        <button @click="$emit('visualizar')" class="btn btn-sm btn-dark">
           <Eye :size="22" />
         </button>
-        <button
-          @click="$emit('editar')"
-          class="btn btn-sm btn-outline-secondary"
-        >
+        <button @click="$emit('editar')" class="btn btn-sm btn-dark">
           <SquarePen :size="22" />
         </button>
-        <button @click="$emit('excluir')" class="btn btn-sm btn-outline-danger">
+        <button @click="$emit('excluir')" class="btn btn-sm btn-dark">
           <Trash2 :size="22" />
         </button>
       </div>
