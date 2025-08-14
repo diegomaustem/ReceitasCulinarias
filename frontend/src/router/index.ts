@@ -31,7 +31,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   const tokenAcesso = !!localStorage.getItem("tokenAcesso");
 
   if (to.meta.requiresAuth && !tokenAcesso) {
