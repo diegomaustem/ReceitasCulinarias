@@ -87,7 +87,7 @@
                 v-if="v$.form.tempoPreparoMinutos.$error"
                 class="text-danger-default text-start pt-1"
               >
-                * {{ v$.form.tempoPreparoMinutos[0]?.$message }}
+                * {{ v$.form.tempoPreparoMinutos.$errors[0]?.$message }}
               </div>
             </div>
 
@@ -196,7 +196,7 @@ const rules = {
         required
       ),
       numeric: helpers.withMessage(
-        "Tempo de preparodeve ser um número.",
+        "Tempo de preparo deve ser um número.",
         numeric
       ),
     },
@@ -271,8 +271,6 @@ const salvar = async () => {
         idUsuarios: usuarioAuth.usuarioLogado?.id,
       }),
     };
-
-    console.log("Dados que serão enviados para a API:", dadosReceita);
 
     if (props.receitaParaEdicao?.id) {
       await receitaStore.atualizarReceita(
