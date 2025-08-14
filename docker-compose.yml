@@ -1,0 +1,91 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: receita_db
+      MYSQL_USER: maustem
+      MYSQL_PASSWORD: "123456"
+      MYSQL_ROOT_HOST: "%"
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/prisma/migrations:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "maustem",
+          "-p123456",
+        ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    restart: unless-stopped
+
+  mysql-setup:
+    image: mysql:8.0
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: on-failure
+    command: >
+      sh -c "until mysql -h mysql_db -u root -prootpassword -e 'SELECT 1'; do sleep 1; done &&
+      mysql -h mysql_db -u root -prootpassword -e
+      \"GRANT ALL PRIVILEGES ON *.* TO 'maustem'@'%';
+      FLUSH PRIVILEGES;\""
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend_app
+    ports:
+      - "3001:3000"
+    depends_on:
+      mysql-setup:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: "mysql://maustem:123456@mysql_db:3306/receita_db?connect_timeout=300"
+      NODE_ENV: "development"
+      PRISMA_MIGRATE_SKIP_GENERATE: "1"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - /app/dist
+    restart: unless-stopped
+    command: >
+      sh -c "npm install tsx --save-dev &&
+      npx prisma db push --accept-data-loss &&
+      npx prisma generate &&
+      npm run seed &&
+      npm run dev"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend_app
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    environment:
+      VITE_API_URL: "/api/v1"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
