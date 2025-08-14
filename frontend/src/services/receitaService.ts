@@ -1,15 +1,22 @@
 import api from "./api";
 import type { Receita } from "../types/Receita";
-import type { Paginacao } from "../types/Paginacao";
 
 export const buscarReceitas = async (
   pagina: number,
-  limite: number
-): Promise<{ dados: Receita[]; paginacao: Paginacao }> => {
-  const response = await api.get("/receitas", {
-    params: { pagina, limite },
-  });
-  return response.data;
+  limite: number,
+  busca?: string
+) => {
+  const params = {
+    pagina,
+    limite,
+    ...(busca && { busca }),
+  };
+
+  const response = await api.get("/receitas", { params });
+  return {
+    dados: response.data.dados,
+    paginacao: response.data.paginacao,
+  };
 };
 
 export const buscarReceita = async (id: number): Promise<Receita> => {
