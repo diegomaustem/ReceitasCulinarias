@@ -42,7 +42,7 @@ Recurso	URL
       
 Credenciais padrão (Use essas credênciais para (PRIMEIRO ACESSO).
 🔑 login:admin@admin
-🔑 senha:123456
+🔑 senha:12345678
 
 ### Testes 
       Foram feitos dois testes unitários no controller do usuário.
